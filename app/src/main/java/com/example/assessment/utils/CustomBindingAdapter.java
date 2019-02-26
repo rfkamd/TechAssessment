@@ -8,28 +8,33 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.assessment.network.models.MediaMetadata;
 import com.example.assessment.network.models.Medium;
+import com.example.assessment.network.models.News;
+import com.example.assessment.network.models.Result;
 
 import java.util.List;
 
 public class CustomBindingAdapter {
 
-    @BindingAdapter("app:url")
-    public void setUrl(String url, ImageView imageView){
+    @BindingAdapter("url")
+    public void setUrl(ImageView imageView, String url){
         Glide.with(imageView.getContext()).load(url).into(imageView);
     }
 
-    @BindingAdapter("app:views")
-    public void setViews(int num, TextView textView){
+    @BindingAdapter("views")
+    public void setViews(TextView textView, long num){
         textView.setText(String.valueOf(num));
     }
 
-    @BindingAdapter("app:images")
-    public void setImages(List<Medium> media, ImageView imageView){
-        List<MediaMetadata> images = media.get(0).mediaMetadata;
+    @BindingAdapter("imageList")
+    public void setImages(ImageView imageView, Result result){
+
+//        List<Medium> media = news.results.get(0).media;
+
+        List<MediaMetadata> images = result.media.get(0).mediaMetadata;
 
         for (MediaMetadata image : images) {
             if(image.format.equalsIgnoreCase("Standard Thumbnail")){
-                setUrl(image.url, imageView);
+                setUrl(imageView, image.url);
             }
         }
     }

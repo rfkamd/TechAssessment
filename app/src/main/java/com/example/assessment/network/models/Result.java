@@ -39,25 +39,25 @@ public class Result {
     public String source;
     @SerializedName("id")
     @Expose
-    public int id;
+    public long id;
     @SerializedName("asset_id")
     @Expose
-    public int assetId;
+    public long assetId;
     @SerializedName("views")
     @Expose
-    public int views;
+    public long views;
     @SerializedName("des_facet")
     @Expose
     public List<String> desFacet = null;
     @SerializedName("org_facet")
     @Expose
-    public String orgFacet;
+    public List<String> orgFacet = null;
     @SerializedName("per_facet")
     @Expose
-    public String perFacet;
+    public List<String> perFacet = null;
     @SerializedName("geo_facet")
     @Expose
-    public String geoFacet;
+    public List<String> geoFacet = null;
     @SerializedName("media")
     @Expose
     public List<Medium> media = null;

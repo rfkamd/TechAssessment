@@ -12,14 +12,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Api extends LiveData<DataWrapper<News>> {
+public class ApiLiveData extends LiveData<DataWrapper<News>> {
 
     private Retrofit retrofit;
-    private final String BASE_URL = "http://api.nytimes.com/svc";
+    private final String BASE_URL = "http://api.nytimes.com/svc/";
 
     private DataWrapper<News> dataWrapper;
 
-    public Api() {
+    public ApiLiveData() {
         retrofit = new retrofit2.Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -27,7 +27,7 @@ public class Api extends LiveData<DataWrapper<News>> {
 
     }
 
-    public void getMostViewed() {
+    public ApiLiveData getMostViewed() {
 
         dataWrapper = new DataWrapper<>();
 
@@ -50,5 +50,7 @@ public class Api extends LiveData<DataWrapper<News>> {
                 postValue(dataWrapper);
             }
         });
+
+        return this;
     }
 }
