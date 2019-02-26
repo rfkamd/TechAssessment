@@ -1,4 +1,4 @@
-package com.navibees.techassessment;
+package com.example.assessment;
 
 import org.junit.Test;
 
