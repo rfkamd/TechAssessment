@@ -63,15 +63,6 @@ public class ApiLiveData extends LiveData<DataWrapper<News>> {
                 .build();
     }
 
-    private GsonConverterFactory buildGsonConverter() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        // Adding custom deserializers
-        gsonBuilder.registerTypeAdapter(News.class, new NewsDeserializer());
-        Gson newsGson = gsonBuilder.create();
-
-        return GsonConverterFactory.create(newsGson);
-    }
-
     public ApiLiveData getMostViewed() {
 
         dataWrapper = new DataWrapper<>();
