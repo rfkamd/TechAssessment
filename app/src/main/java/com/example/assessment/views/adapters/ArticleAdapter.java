@@ -17,6 +17,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.Holder>{
 
     private List<Result> results;
     private LayoutInflater layoutInflater;
+    private NewsItemClickListener itemClickListener;
 
     @NonNull
     @Override
@@ -49,9 +50,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.Holder>{
             this.layoutBinding = binding;
         }
 
-        public void bind(Result result){
+        public void bind(final Result result){
             layoutBinding.setResult(result);
-            layoutBinding.txtTitle.setText(result.title);
+            layoutBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClickListener.onNewsItemClick(result);
+                }
+            });
         }
 
     }
@@ -60,5 +66,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.Holder>{
         this.results = results;
     }
 
+    public void setOnItemClickListener(NewsItemClickListener itemClickListener){
+        this.itemClickListener = itemClickListener;
+    }
 
 }

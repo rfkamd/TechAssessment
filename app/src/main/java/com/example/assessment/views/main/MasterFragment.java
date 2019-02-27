@@ -17,7 +17,9 @@ import com.example.assessment.R;
 import com.example.assessment.databinding.FragmentMasterBinding;
 import com.example.assessment.network.DataWrapper;
 import com.example.assessment.network.models.News;
+import com.example.assessment.network.models.Result;
 import com.example.assessment.views.adapters.ArticleAdapter;
+import com.example.assessment.views.adapters.NewsItemClickListener;
 
 import android.arch.lifecycle.ViewModelProviders;
 
@@ -46,15 +48,8 @@ public class MasterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_master, container, false);
-        binding.srf1.setOnRefreshListener(refreshListener);
-
-        //proceed to display data
-        adapter = new ArticleAdapter();
-        //bind to layout Manager
-        binding.rcArcticles.setLayoutManager(new LinearLayoutManager(context));
-        binding.rcArcticles.setAdapter(adapter);
-
         init();
+        refresh();
         return binding.getRoot();
     }
 
@@ -67,11 +62,34 @@ public class MasterFragment extends Fragment {
     SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            init();
+            refresh();
         }
     };
 
-    private void init() {
+    NewsItemClickListener itemClickListener = new NewsItemClickListener() {
+        @Override
+        public void onNewsItemClick(Result result) {
+            viewModel.selectedResult = result;
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.container, new DetailsFragment(), "DetailsFragment")
+                    .addToBackStack("DetailsFragment")
+                    .commit();
+        }
+    };
+
+    private void init(){
+        binding.srf1.setOnRefreshListener(refreshListener);
+
+        //proceed to display data
+        adapter = new ArticleAdapter();
+        adapter.setOnItemClickListener(itemClickListener);
+        //bind to layout Manager
+        binding.rcArcticles.setLayoutManager(new LinearLayoutManager(context));
+        binding.rcArcticles.setAdapter(adapter);
+
+    }
+
+    private void refresh() {
 
         binding.srf1.setRefreshing(true);
 
@@ -84,6 +102,7 @@ public class MasterFragment extends Fragment {
                     newsDataWrapper.exception.printStackTrace();
                     return;
                 }
+                viewModel.results = newsDataWrapper.data.results;
                 adapter.setResults(newsDataWrapper.data.results);
                 adapter.notifyDataSetChanged();
 
