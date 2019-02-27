@@ -38,7 +38,8 @@ public class MasterFragment extends Fragment {
     }
 
     // Required empty public constructor
-    public MasterFragment() {}
+    public MasterFragment() {
+    }
 
 
     @Override
@@ -46,6 +47,13 @@ public class MasterFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_master, container, false);
         binding.srf1.setOnRefreshListener(refreshListener);
+
+        //proceed to display data
+        adapter = new ArticleAdapter();
+        //bind to layout Manager
+        binding.rcArcticles.setLayoutManager(new LinearLayoutManager(context));
+        binding.rcArcticles.setAdapter(adapter);
+
         init();
         return binding.getRoot();
     }
@@ -63,7 +71,7 @@ public class MasterFragment extends Fragment {
         }
     };
 
-    private void init(){
+    private void init() {
 
         binding.srf1.setRefreshing(true);
 
@@ -72,15 +80,12 @@ public class MasterFragment extends Fragment {
             public void onChanged(@Nullable DataWrapper<News> newsDataWrapper) {
                 binding.srf1.setRefreshing(false);
                 //if exception print and return
-                if(newsDataWrapper.exception != null){
+                if (newsDataWrapper.exception != null) {
                     newsDataWrapper.exception.printStackTrace();
                     return;
                 }
-                //proceed to display data
-                adapter = new ArticleAdapter(newsDataWrapper.data.results);
-                //bind to layout Manager
-                binding.rcArcticles.setLayoutManager(new LinearLayoutManager(context));
-                binding.rcArcticles.setAdapter(adapter);
+                adapter.setResults(newsDataWrapper.data.results);
+                adapter.notifyDataSetChanged();
 
             }
         });

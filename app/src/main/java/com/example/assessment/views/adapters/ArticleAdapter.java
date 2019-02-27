@@ -18,10 +18,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.Holder>{
     private List<Result> results;
     private LayoutInflater layoutInflater;
 
-    public ArticleAdapter(List<Result> results) {
-        this.results = results;
-    }
-
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
@@ -40,6 +36,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.Holder>{
 
     @Override
     public int getItemCount() {
+        if(results == null) return 0;
         return results.size();
     }
 
@@ -54,11 +51,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.Holder>{
 
         public void bind(Result result){
             layoutBinding.setResult(result);
+            layoutBinding.txtTitle.setText(result.title);
         }
 
     }
 
-
+    public void setResults(List<Result> results){
+        this.results = results;
+    }
 
 
 }

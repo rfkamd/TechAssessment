@@ -7,11 +7,10 @@
             type="com.example.assessment.network.models.Result"/>
     </data>
 
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="160dp">
 
 
         <android.support.constraint.ConstraintLayout
@@ -22,9 +21,9 @@
 
             <ImageView
                 android:id="@+id/imgTitle"
+                imageList="@{result}"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                imageList="@{result}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars[0]" />
@@ -64,12 +63,12 @@
 
             <TextView
                 android:id="@+id/txtViewCount"
+                views="@{result.views}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                views="@{result.views}"
                 android:textColor="#CCCCCC"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"

@@ -1,11 +1,16 @@
 package com.example.assessment.network;
 
 import android.arch.lifecycle.LiveData;
-import android.widget.Toast;
 
 import com.example.assessment.network.models.News;
-import com.example.assessment.views.main.MainActivity;
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,11 +25,51 @@ public class ApiLiveData extends LiveData<DataWrapper<News>> {
     private DataWrapper<News> dataWrapper;
 
     public ApiLiveData() {
-        retrofit = new retrofit2.Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+
+        // Creating the interceptor, and setting the log level
+        // And adding the interceptor to a client
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient httpClient =  new OkHttpClient().newBuilder()
+                .addInterceptor(interceptor)
                 .build();
 
+        ExclusionStrategy strategy = new ExclusionStrategy() {
+            @Override
+            public boolean shouldSkipField(FieldAttributes f) {
+                if(f.getName().equalsIgnoreCase("orgFacet")) return true;
+                if(f.getName().equalsIgnoreCase("perFacet")) return true;
+                if(f.getName().equalsIgnoreCase("geoFacet")) return true;
+                if(f.getName().equalsIgnoreCase("desFacet")) return true;
+                return false;
+            }
+
+            @Override
+            public boolean shouldSkipClass(Class<?> clazz) {
+                return false;
+            }
+        };
+
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .setLenient().addDeserializationExclusionStrategy(strategy)
+                .create();
+
+        retrofit = new retrofit2.Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(httpClient)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+    }
+
+    private GsonConverterFactory buildGsonConverter() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        // Adding custom deserializers
+        gsonBuilder.registerTypeAdapter(News.class, new NewsDeserializer());
+        Gson newsGson = gsonBuilder.create();
+
+        return GsonConverterFactory.create(newsGson);
     }
 
     public ApiLiveData getMostViewed() {

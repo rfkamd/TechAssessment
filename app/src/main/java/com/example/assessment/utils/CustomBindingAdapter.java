@@ -16,17 +16,17 @@ import java.util.List;
 public class CustomBindingAdapter {
 
     @BindingAdapter("url")
-    public void setUrl(ImageView imageView, String url){
+    public static void setUrl(ImageView imageView, String url){
         Glide.with(imageView.getContext()).load(url).into(imageView);
     }
 
     @BindingAdapter("views")
-    public void setViews(TextView textView, long num){
+    public static void setViews(TextView textView, long num){
         textView.setText(String.valueOf(num));
     }
 
     @BindingAdapter("imageList")
-    public void setImages(ImageView imageView, Result result){
+    public static void setImages(ImageView imageView, Result result){
 
 //        List<Medium> media = news.results.get(0).media;
 
