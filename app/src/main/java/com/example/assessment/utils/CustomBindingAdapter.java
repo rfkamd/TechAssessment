@@ -1,7 +1,10 @@
 package com.example.assessment.utils;
 
+import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.media.Image;
+import android.net.Uri;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,10 +36,22 @@ public class CustomBindingAdapter {
         List<MediaMetadata> images = result.media.get(0).mediaMetadata;
 
         for (MediaMetadata image : images) {
-            if(image.format.equalsIgnoreCase("Standard Thumbnail")){
+            if(image.format.equalsIgnoreCase("square320")){
                 setUrl(imageView, image.url);
             }
         }
+    }
+
+    @BindingAdapter("link")
+    public static void setLink(final TextView textView, final String url){
+        textView.setText("View More");
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                textView.getContext().startActivity(browserIntent);
+            }
+        });
     }
 
 }

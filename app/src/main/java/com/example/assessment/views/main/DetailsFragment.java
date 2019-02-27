@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.assessment.R;
 import com.example.assessment.databinding.FragmentDetailsBinding;
+import com.example.assessment.views.adapters.SliderAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +23,7 @@ public class DetailsFragment extends Fragment {
     private Context context;
     private MainViewModel viewModel;
     private FragmentDetailsBinding binding;
+    private SliderAdapter adapter;
 
     @Override
     public void onAttach(Context context) {
@@ -38,7 +40,9 @@ public class DetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false);
 //        viewPager.setAdapter(new SliderAdapter(this, images));
-
+        binding.setResult(viewModel.selectedResult);
+        adapter = new SliderAdapter(context, viewModel.selectedResult.media);
+        binding.viewPager.setAdapter(adapter);
         return binding.getRoot();
     }
 

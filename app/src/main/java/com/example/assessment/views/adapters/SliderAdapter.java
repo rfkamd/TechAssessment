@@ -12,7 +12,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.assessment.R;
 import com.example.assessment.network.models.MediaMetadata;
+import com.example.assessment.network.models.Medium;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.bumptech.glide.request.RequestOptions.centerCropTransform;
@@ -21,10 +23,10 @@ import static com.bumptech.glide.request.RequestOptions.sizeMultiplierOf;
 public class SliderAdapter extends PagerAdapter {
 
     private Context context;
-    private List<String> images;
+    private List<Medium> images;
     private LayoutInflater inflater;
 
-    public SliderAdapter(Context context, List<String> images) {
+    public SliderAdapter(Context context, List<Medium> images) {
         this.context = context;
         this.images = images;
         inflater = LayoutInflater.from(context);
@@ -42,21 +44,30 @@ public class SliderAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-//        ImageView imgSlide =  new ImageView(context);
+        Medium medium = images.get(position);
         View view = inflater.inflate(R.layout.slider_image, container, false);
 
         ImageView imageView = view.findViewById(R.id.imageView);
         TextView txtCaption = view.findViewById(R.id.txtCaption);
+        txtCaption.setText(medium.caption);
+
+        String url = null;
+
+        for (MediaMetadata mediaMetadatum : medium.mediaMetadata) {
+            if(mediaMetadatum.format.equalsIgnoreCase("Jumbo")){
+                url = mediaMetadatum.url;
+                break;
+            }
+        }
 
         Glide
                 .with(context)
-                .load(images.get(position))
+                .load(url)
                 .apply(sizeMultiplierOf(0.5f))
                 .apply(centerCropTransform())
-//                .apply(diskCacheStrategyOf(DiskCacheStrategy.ALL))
+                .placeholder(R.drawable.ic_loading)
                 .into(imageView);
 
-//        txtCaption.setText(images.get(position).caption);
 
         ViewPager viewPager = (ViewPager) container;
         viewPager.addView(view, 0);
