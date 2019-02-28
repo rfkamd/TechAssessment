@@ -40,7 +40,7 @@ public class MainActivityTest {
     public void mainActivityTest() {
 
         try {
-            Thread.sleep(1500);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -51,16 +51,14 @@ public class MainActivityTest {
                         childAtPosition(
                                 withClassName(is("android.support.constraint.ConstraintLayout")),
                                 0)));
+
+        assert recyclerView != null;
+
         recyclerView.perform(actionOnItemAtPosition(1, click()));
 
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(700);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+
+        pressBack();
 
 //        ViewInteraction appCompatTextView = onView(
 //                allOf(withId(R.id.txtViewMore), withText("View More"),
@@ -72,23 +70,13 @@ public class MainActivityTest {
 //                        isDisplayed()));
 //        appCompatTextView.perform(click());
 
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(700);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(700);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
-        pressBack();
 
-        ViewInteraction recyclerView2 = onView(
-                allOf(withId(R.id.rcArcticles),
-                        childAtPosition(
-                                withClassName(is("android.support.constraint.ConstraintLayout")),
-                                0)));
-        recyclerView2.perform(actionOnItemAtPosition(5, click()));
 
 
     }
