@@ -40,8 +40,7 @@ public class MasterFragment extends Fragment {
     }
 
     // Required empty public constructor
-    public MasterFragment() {
-    }
+    public MasterFragment() {}
 
 
     @Override
@@ -49,6 +48,7 @@ public class MasterFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_master, container, false);
         init();
+        //fetch and show data
         refresh();
         return binding.getRoot();
     }
@@ -62,6 +62,7 @@ public class MasterFragment extends Fragment {
     SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
+            //refresh on pull down
             refresh();
         }
     };
@@ -78,9 +79,11 @@ public class MasterFragment extends Fragment {
     };
 
     private void init(){
+
+        //setup swipe refresh layout
         binding.srf1.setOnRefreshListener(refreshListener);
 
-        //proceed to display data
+        // setup recyclerview
         adapter = new ArticleAdapter();
         adapter.setOnItemClickListener(itemClickListener);
         //bind to layout Manager
@@ -89,6 +92,7 @@ public class MasterFragment extends Fragment {
 
     }
 
+    //get data from API
     private void refresh() {
 
         binding.srf1.setRefreshing(true);
@@ -102,6 +106,7 @@ public class MasterFragment extends Fragment {
                     newsDataWrapper.exception.printStackTrace();
                     return;
                 }
+                // update adapter and notify about data change
                 viewModel.results = newsDataWrapper.data.results;
                 adapter.setResults(newsDataWrapper.data.results);
                 adapter.notifyDataSetChanged();

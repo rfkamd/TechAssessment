@@ -35,6 +35,7 @@ public class ApiLiveData extends LiveData<DataWrapper<News>> {
                 .addInterceptor(interceptor)
                 .build();
 
+        //ignore ambiguous fields
         ExclusionStrategy strategy = new ExclusionStrategy() {
             @Override
             public boolean shouldSkipField(FieldAttributes f) {
@@ -63,6 +64,9 @@ public class ApiLiveData extends LiveData<DataWrapper<News>> {
                 .build();
     }
 
+    /**
+     * get most viewed articles from api within 7 days
+     */
     public void getMostViewed() {
 
         dataWrapper = new DataWrapper<>();

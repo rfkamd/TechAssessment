@@ -40,9 +40,11 @@ public class DetailsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false);
 
+        //init view pager
         binding.setResult(viewModel.selectedResult);
         adapter = new SliderAdapter(context, viewModel.selectedResult.media);
         binding.viewPager.setAdapter(adapter);

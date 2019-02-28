@@ -10,9 +10,11 @@ import java.util.List;
 
 public class MainViewModel extends ViewModel {
 
+    // API object to call different endpoints
     public ApiLiveData apiLiveData = new ApiLiveData();
+    // results array
     public List<Result> results = new ArrayList<>();
-
+    //selected result
     public Result selectedResult = null;
 
 
