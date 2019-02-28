@@ -90,7 +90,7 @@ public class MainActivityTest {
                                 0)));
         recyclerView2.perform(actionOnItemAtPosition(5, click()));
 
-        pressBack();
+
     }
 
     private static Matcher<View> childAtPosition(

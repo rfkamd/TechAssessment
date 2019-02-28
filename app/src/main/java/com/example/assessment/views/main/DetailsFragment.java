@@ -15,6 +15,9 @@ import com.example.assessment.R;
 import com.example.assessment.databinding.FragmentDetailsBinding;
 import com.example.assessment.views.adapters.SliderAdapter;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -39,10 +42,15 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false);
-//        viewPager.setAdapter(new SliderAdapter(this, images));
+
         binding.setResult(viewModel.selectedResult);
         adapter = new SliderAdapter(context, viewModel.selectedResult.media);
         binding.viewPager.setAdapter(adapter);
+
+        //start timer to change slides
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new SliderTimer(), 4000, 6000);
+
         return binding.getRoot();
     }
 
@@ -50,6 +58,23 @@ public class DetailsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+    }
+
+    private class SliderTimer extends TimerTask {
+
+        @Override
+        public void run() {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (binding.viewPager.getCurrentItem() < viewModel.selectedResult.media.size() - 1) {
+                        binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
+                    } else {
+                        binding.viewPager.setCurrentItem(0);
+                    }
+                }
+            });
+        }
     }
 
 }

@@ -10,10 +10,10 @@ import java.util.List;
 
 public class MainViewModel extends ViewModel {
 
-    ApiLiveData apiLiveData = new ApiLiveData();
-    List<Result> results = new ArrayList<>();
+    public ApiLiveData apiLiveData = new ApiLiveData();
+    public List<Result> results = new ArrayList<>();
 
-    Result selectedResult = null;
+    public Result selectedResult = null;
 
 
 }
