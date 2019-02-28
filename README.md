@@ -8,5 +8,8 @@ Interview Task
     connect device via usb with usb debugging enabled
     type "gradlew installDebug" in command line
 
-## Instrumented unit test ##
+## Instrumentation unit test ##
     type "gradlew connectedAndroidTest mergeAndroidReports --continue" in command line
+    
+## coverage report ##
+        type "gradlew createDebugAndroidTestCoverageReport" in command line to create and view coverage reports

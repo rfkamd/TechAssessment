@@ -93,7 +93,7 @@ public class MasterFragment extends Fragment {
 
         binding.srf1.setRefreshing(true);
 
-        viewModel.apiLiveData.getMostViewed().observe(this, new Observer<DataWrapper<News>>() {
+        viewModel.apiLiveData.observe(this, new Observer<DataWrapper<News>>() {
             @Override
             public void onChanged(@Nullable DataWrapper<News> newsDataWrapper) {
                 binding.srf1.setRefreshing(false);

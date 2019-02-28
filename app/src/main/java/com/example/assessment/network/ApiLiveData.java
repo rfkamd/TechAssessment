@@ -63,7 +63,7 @@ public class ApiLiveData extends LiveData<DataWrapper<News>> {
                 .build();
     }
 
-    public ApiLiveData getMostViewed() {
+    public void getMostViewed() {
 
         dataWrapper = new DataWrapper<>();
 
@@ -86,7 +86,14 @@ public class ApiLiveData extends LiveData<DataWrapper<News>> {
                 postValue(dataWrapper);
             }
         });
-
-        return this;
     }
+
+    @Override
+    protected void onActive() {
+        super.onActive();
+        getMostViewed();
+    }
+
+
+
 }
